@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .cell {
+    @apply h-40 w-40 text-center text-3xl;
+  }
+
+  [data-occupy="X"] {
+    @apply text-blue-600 pointer-events-none;
+  }
+  
+  [data-occupy="O"] {
+    @apply text-purple-600 pointer-events-none;
+  }
+}

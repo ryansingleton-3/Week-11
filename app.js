@@ -1,4 +1,4 @@
-$( document ).ready( () => {
+$( document ).on('ready', () => {
 
     // let p = $('p')
     // console.log(p.css('background-color'));
@@ -12,8 +12,6 @@ $( document ).ready( () => {
     // })
 
     // jquery 
-
-    
     const player_X = "X"
     const player_O = "O"
     const cell = $('td')
@@ -38,8 +36,6 @@ $( document ).ready( () => {
     // sets the starting player as X 
     let currentPlayer = player_X
 
-
-
     const winningCombo1 = [0, 1, 2]
     const winningCombo2 = [3, 4, 5]
     const winningCombo3 = [6, 7, 8]
@@ -49,9 +45,9 @@ $( document ).ready( () => {
     const winningCombo7 = [0, 4, 8]
     const winningCombo8 = [2, 4, 6]
     
-    
     // console.log(cell)
     const gameboardArray = []
+
     // let turn = true;
     let turnNumber = 1;
     for ( let i = 0; i < 9; i++ ) {             // this iterates through each cell
@@ -82,8 +78,6 @@ $( document ).ready( () => {
         }
     }
 
-
-
     const matchArray = []
     function checkForWin(x) {
         console.log('Turn Number greater than 5');
@@ -107,7 +101,7 @@ $( document ).ready( () => {
                         console.log(matchArray)
                     }
                 }
-            }
+            } 
             console.log(checkForWin) 
     
 
@@ -231,20 +225,9 @@ $( document ).ready( () => {
         document.location.reload()
     };
     
-    $(reset).click(resetGame);
+    $(reset).on('click', resetGame);
     
     for (i=0;i<cell.length; i++) {
         console.log(i)
     };
-    
-
-        // let square = $( evt.target );
-        // square.add( 'p' ).text('X').addClass('XandO');
-
-        // square.text('X').addClass('XandO').slideUp( 2500 )
-        
-        
-        
-
-
 })
