@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ryan Singleton's Tic-Tac-Toe</title>
-    <script src="https://kit.fontawesome.com/40bba25030.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-  </head>
-  <body class="min-h-screen grid place-items-center">
-    <main>
-      <h1 id="game-status" class="text-center text-3xl mb-12"></h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- <script src="https://kit.fontawesome.com/21cc14b250.js" crossorigin="anonymous"></script> -->
+        <title>Ryan Singleton's Tic-Tac-Toe Game</title>
+    </head>
+    <body>
 
-      <table id="tic-tac-toe">
-        <tr class="border-b-2">
-          <td data-position="0" class="cell"></td>
-          <td data-position="1" class="cell border-x-2"></td>
-          <td data-position="2" class="cell"></td>
-        </tr>
-        <tr>
-          <td data-position="3" class="cell"></td>
-          <td data-position="4" class="cell border-x-2"></td>
-          <td data-position="5" class="cell"></td>
-        </tr>
-        <tr class="border-t-2">
-          <td data-position="6" class="cell"></td>
-          <td data-position="7" class="cell border-x-2"></td>
-          <td data-position="8" class="cell"></td>
-        </tr>
-      </table>
+        <main>
+            <h1 id="game-status" class="text-center"></h1>
+            <h3 id="whosTurn" class="text-center">It is X's turn</h3>
+            <!-- <p id="first-paragraph" class="paragraphs">This is a paragraph</p> -->
+            
+            <table id="tic-tac-toe">
+                <tr>
+                    <td data-position="0" class="top left cell"></td>
+                    <td data-position="1" class="top cell"></td>
+                    <td data-position="2" class="top right cell"></td>
+                </tr>
+                <tr>
+                    <td data-position="3" class="left cell"></td>
+                    <td data-position="4" class="cell"></td>
+                    <td data-position="5" class="right cell"></td>
+                </tr>
+                <tr>
+                    <td data-position="6" class="bottom left cell"></td>
+                    <td data-position="7" class="bottom cell"></td>
+                    <td data-position="8" class="bottom right cell"></td>
+                </tr>
+            </table>
 
-      <div class="text-center mt-12">
-        <button id="reset-button" class="py-3 px-8 bg-blue-500 text-white rounded-xl hover:bg-blue-400 duration-150">
-          Reset Game
-        </button>
-      </div>
-    </main>
+            <div class="button">
+            <button id="reset-button" class="btn btn-dark btn-large">Reset Game</button>
+            </div>
+            <div>
+            
+            </div>  
+        </main>    
 
-    <script type="module" src="/game.js"></script>
-  </body>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <script type="module" src="/app.js"></script>
+    </body>
 </html>

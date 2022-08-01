@@ -1,23 +1,36 @@
-$( document ).on('ready', () => {
 
-    // let p = $('p')
-    // console.log(p.css('background-color'));
 
-    // p.hide( 2500 );
-    // p.fadeOut( 2500 );
-    // p.show( 2500 );
-    // p.slideUp( 2500 );
-    // p.on("click", () => {
-    //     p.toggle();
-    // })
 
-    // jquery 
-    const player_X = "X"
-    const player_O = "O"
-    const cell = $('td')
+$(() => {
 
-    // array of winning conditions.
-    const winningCombinations = [
+    const player1 = {
+        label: "X",
+        icon: "fa-x",
+        array: []
+    }
+
+    const player2 = {
+        label: "O",
+        icon: "fa-o",
+        array: []
+    }
+
+    let activePlayer = player1 // sets the active player to be player one initially (X's)
+
+    const cells = $('td') // labels all td's to be cells
+    let whosTurn = $('h3')
+    let gameStatus = $('h1')
+
+    let reset = $('#reset-button');
+        function resetGame(reset) {
+            document.location.reload()
+    };
+
+    reset.on('click', resetGame)
+
+    let turnNumber = 0
+
+    const winningCombinations = [ // combination of winning indexes
         // rows
         [0, 1, 2],
         [3, 4, 5],
@@ -31,203 +44,71 @@ $( document ).on('ready', () => {
         //diagonals
         [0, 4, 8],
         [2, 4, 6],
-    ]
+    ]   
 
-    // sets the starting player as X 
-    let currentPlayer = player_X
-
-    const winningCombo1 = [0, 1, 2]
-    const winningCombo2 = [3, 4, 5]
-    const winningCombo3 = [6, 7, 8]
-    const winningCombo4 = [0, 3, 6]
-    const winningCombo5 = [1, 4, 7]
-    const winningCombo6 = [2, 5, 8]
-    const winningCombo7 = [0, 4, 8]
-    const winningCombo8 = [2, 4, 6]
     
-    // console.log(cell)
-    const gameboardArray = []
 
-    // let turn = true;
-    let turnNumber = 1;
-    for ( let i = 0; i < 9; i++ ) {             // this iterates through each cell
-        let td = $(`#${i+1}`);                  // this creates a variable for the index of each cell. 
-        td.on('click', () => {                  // this handles the event of a click on each cell and begins our function
-            if (currentPlayer === player_X) {   // player x's turn 
-                td.text('X').addClass('XandO'); // adds the X in the cell and styles it with the class being added
-                currentPlayer = player_O        // switches turn to player Y
-                turnCounter();                   // calls on turnCounter function, which adds 1 to the turn each time. This also checks for a win.
-            } else {
-                td.text('O').addClass('XandO');  //adds the X in the cell and styles it with the class being added
-                currentPlayer = player_X         // switches turn to Player X
-                turnCounter();                  // calls on turnCounter function, which adds 1 to the turn each time. This also checks for a win.
-            }
-            
-        })
-        gameboardArray.push(td);                // this pushes the index number of the selected cell to the gameboard array. This array will be used to check for winning combinations later.
-    }
-
-    function turnCounter() {
-        if ( turnNumber < 5 ) {                 // it is possible to win at 5+ turns, you cant win with 4 or less
-            turnNumber++;                       // iterate to the next turn
+    const takeTurn = (player, cell) => {
+        if (activePlayer == player1) {
+            $(cell).text(`${player.label}`).addClass('XandO').addClass('X').attr('data-occupy', player.label).push(player.array)
+            player.array.push(cell)
+            activePlayer = player2
+            whosTurn.text(`It is ${player2.label}'s turn`)
+            turnNumber ++
+            console.log(player.array)
         } else {
-            if ( checkForWin(turnNumber) ) {
-                // do something to show who won
-            } 
-            turnNumber++;
+            $(cell).text(`${player.label}`).addClass('XandO').addClass('O').attr('data-occupy', player.label).push(player.array)
+            player.array.push(cell)
+            activePlayer = player1
+            whosTurn.text(`It is ${player1.label}'s turn`)
+            turnNumber ++
+            console.log(player.array)
+
         }
+
+        if (checkForWin(player)) {
+            gameStatus.text(`Player ${player.label} Wins!`)
+        }
+
+        
     }
 
-    const matchArray = []
-    function checkForWin(x) {
-        console.log('Turn Number greater than 5');
-        if ( x > 9 ) {
-            return false; //
-        } else {
-            for (let i = 0; i < gameboardArray.length; i++) {
-                let match = false
-                for (let j = 0; j < winningCombo1.length; j++)
-                    if (gameboardArray[i].every(winningCombo1[j]) == winningCombo1) {
-                        match = true
-                        break;
-                    }
+    const checkForWin = player => {
+        let hasWon = false
+        if (player.array[i] == winningCombinations[i]) {
+            hasWon = true;
+            gameStatus.text(`${player} wins!`)
+        }        
+        // add something here
+        if (turnNumber >= 9) {
+            hasWon = false
+            gameStatus.text(`It's a Draw!`).addClass('alert').addClass('alert-primary')
+            whosTurn.text('')
+        }
 
-                        checkForWin = true;
-                        
-                    
-                    }
-                    if (match) {
-                        matchArray.push(winningCombo1[j])
-                        console.log(matchArray)
-                    }
+
+
+        for (const combo of winningCombinations) {
+            let compare1 = _.intersection(combo, player1.array)
+                if (compare1.length === 3) {
+                    hasWon = true
                 }
-            } 
-            console.log(checkForWin) 
-    
+            let compare2 = _.intersection(combo, player2.array)
+                if (compare2.length === 3) {
+                    hasWon = true
+                }
 
-
-
-    // function checkForWin(x) {
-    //     console.log('Turn Number greater than 5');
-    //     if ( x > 9 ) {
-    //         return false; //
-    //     } else {
-    //         for (let i = 0; i < gameboardArray.length; i++) {
-    //             // console.log(gameboardArray[i])
-    //             // console.log(winningCombinations[i])
-    //             if (gameboardArray[winningCombinations[i][0]] == currentPlayer &&
-    //                 gameboardArray[winningCombinations[i][1]] == currentPlayer &&
-    //                 gameboardArray[winningCombinations[i][2]] == currentPlayer) {
-    //                     checkForWin = true;
-                        
-                    
-    //                 }
-    //             }
-    //         }
-    //         console.log(checkForWin) 
-    //     }
-
-
-
-
-                
-    // function declareWinner (matchOneFound) {
-    //     if (matchOneFound) {
-    //         console.log("you win!")
-    //     } else {
-    //         console.log("something is wrong")
-    //     }
-    // }
-
-            
-            // do something with the array we created earlier 
-            // function checkCombos (winningCombo1, array) {
-            //     for (let i = 0; i < array.length; i++) {
-            //         if (cell[i].innerHTML.indexOf("X") !== -1) {
-            //             let matchOneFound = winningCombo1.every(e => array.indexOf(e) != -1) ? true : false
-            //             console.log(matchOneFound)
-            //             console.log("X Wins")
-            //         } else if ((cell[i].innerHTML.indexOf("O") !== -1)){
-            //             console.log("0 Wins!")
-            //         }
-            //     }
-                
-            //     //     if (winningCombo1.every(e => array.includes(e))) {
-            //     //         matchOneFound = true;
-            //     //         console.log(matchOneFound);
-
-            //     // } else {
-            //     //     console.log('something is wrong')
-            //     }
-                
-        // };
-
-   
-    // match1 = (array) => {
-    //     function matchOneCombo (array) {
-    //         winningCombo1.every(element) 
-    //         return array.includes(element);
-    //     }
-    //     if (match1 == true) {
-    //         console.log("You win!")
-    //     } else {
-    //         console.log("you dont win")
-    //     }
-    // } 
+        return hasWon;
         
-        
-    // function compareValues(array, winningCombo1) {
-    // for (let i = 0; i < winningCombinations.length; i++) {
-    //     let xs = array.cell[i].innerHTML.indexOf("X") !== -1;
-    //     if (winningCombo1.every(e => array.indexOf(e) !== -1)){
-    //         console.log("hello")
-    //     } else {
-    //         console.log(xs)
-    //     }
-            
-    // }
-        // if (match1 === true) {
-        //     for (let i = 0; i < array.length; i++) {
-        //             const match1 = winningCombo1.every(element => {
-        //                 return array.includes(element);
-        //             });
-        //     }
-        // } else if (match2 === true) {
-        //     for (let i = 0; i < array.length; i++) {
-        //         const match2 = winningCombo2.every(element => {
-        //             return array.includes(element);
-        //         });
-        //     }
-        // } else {
-        //     console.log("no matches")
-        
-        // for (let i = 0; i < array.length; i++) {
-        //     const match1 = winningCombo1.every(element => {
-        //         return array.indexOf(element) != -1;
-        //     });
+        }
+        console.log(hasWon)
+    }
 
-            
-            
-        //     // if (match) {
-        //     //     console.log('You Win!')
-        //     // }
 
-        // }
-        // if (match1 == true) {
-        //     console.log('You win!')
-        // }
-        // console.log(match1);
-        // console.log("you win!")
-    // }
+    for (const cell of cells) {
+        $(cell).on('click', () => takeTurn(activePlayer, cell))
+    }
 
-    let reset = $('#reset-button');
-    function resetGame(reset) {
-        document.location.reload()
-    };
-    
-    $(reset).on('click', resetGame);
-    
-    for (i=0;i<cell.length; i++) {
-        console.log(i)
-    };
+
+
 })
