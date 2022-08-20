@@ -78,3 +78,24 @@ td {
 .gameOver {
     pointer-events: none;
 }
+
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    table { 
+        width: 500px; 
+        margin: 10px auto;
+        box-sizing: border-box;
+        
+    }
+    
+    tr {
+        height: 125px;
+    }
+    
+    td {
+        width: 125px;
+        border: 2px solid black;
+    }
+  }
